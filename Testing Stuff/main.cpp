@@ -4,7 +4,9 @@
 int main()
 {
     sf::RenderWindow* window = new sf::RenderWindow();
-    window->create({800, 600}, "My Window", sf::Style::Default);
+    int winwidth = sf::VideoMode::getDesktopMode().width;
+    int winheight = sf::VideoMode::getDesktopMode().height;
+    window->create({winwidth, winheight}, "Tallest Towers", sf::Style::Fullscreen);
 
     while(window->isOpen())
     {
