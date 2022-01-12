@@ -26,23 +26,23 @@ TARGET = main
 default: $(BUILD)/$(TARGET)
 
 $(BUILD)/$(TARGET): $(SRC)/$(TARGET).cpp
-	mkdir -p $(BUILD)
-	g++ -c $(SRC)/$(TARGET).cpp $(INCLUDES) $(FLAGS)
-	g++ -o $(BUILD)/$(TARGET) *.o $(INCLUDES) $(LINKS) $(FLAGS)
-	rm *.o
-	cp $(LINKS) $(BUILD)
+	@mkdir -p $(BUILD)
+	@g++ -c $(SRC)/$(TARGET).cpp $(INCLUDES) $(FLAGS)
+	@g++ -o $(BUILD)/$(TARGET) *.o $(INCLUDES) $(LINKS) $(FLAGS)
+	@rm *.o
+	@cp $(LINKS) $(BUILD)
 
 run: $(BUILD)/$(TARGET)
-	./$(BUILD)/$(TARGET)
+	@./$(BUILD)/$(TARGET)
 
 clean:
-	rm $(BUILD) -r || true
+	@rm $(BUILD) -r || true
 
 gdb: $(BUILD)/$(TARGET)
-	gdb $(BUILD)/$(TARGET)
+	@gdb $(BUILD)/$(TARGET)
 
 valgrind: $(BUILD)/$(TARGET)
-	valgrind --leak-check=full -s ./$(BUILD)/$(TARGET)
+	@valgrind --leak-check=full -s ./$(BUILD)/$(TARGET)
 
 # Windows-specific targets for cross compilation
 WDEFFLAGS = -I . -I ./headers/ -I include -w -lpthread -lstdc++fs -Wall -Wextra -Werror -pedantic -std=c++17 -Wl,--enable-auto-image-base -Wl,--add-stdcall-alias -Wl,--enable-auto-import -mthreads -fmessage-length=0 -fexceptions -fident
@@ -59,14 +59,14 @@ WSRCFILE = main.cpp
 wdefault: $(WBUILD)/$(WTARGET)
 
 $(WBUILD)/$(WTARGET): $(WSRC)/$(WSRCFILE)
-	mkdir -p $(WBUILD)
-	x86_64-w64-mingw32-g++ -c $(WSRC)/$(WSRCFILE) $(WINCLUDES) $(WFLAGS)
-	x86_64-w64-mingw32-g++ -o $(WBUILD)/$(WTARGET) *.o $(WINCLUDES) $(WLINKS) $(WFLAGS)
-	rm *.o
-	cp windows-lib/* $(WBUILD)
+	@mkdir -p $(WBUILD)
+	@x86_64-w64-mingw32-g++ -c $(WSRC)/$(WSRCFILE) $(WINCLUDES) $(WFLAGS)
+	@x86_64-w64-mingw32-g++ -o $(WBUILD)/$(WTARGET) *.o $(WINCLUDES) $(WLINKS) $(WFLAGS)
+	@rm *.o
+	@cp windows-lib/* $(WBUILD)
 
 wrun: $(WBUILD)/$(WTARGET)
-	wine $(WBUILD)/$(WTARGET)
+	@wine $(WBUILD)/$(WTARGET)
 
 wclean:
-	rm $(WBUILD) -r || true
+	@rm $(WBUILD) -r || true
