@@ -2,16 +2,33 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+double mindt = 0xFFFFFFF, avgdt = 0, maxdt = 0;
+std::vector<double> dts;
+
+void printStats()
+{
+    int i;
+    for(i = 1000; i < dts.size() - 1000; i++)
+    {
+        avgdt += dts[i];
+        if(dts[i] < mindt) mindt = dts[i];
+        if(dts[i] > maxdt) maxdt = dts[i];
+    }
+    avgdt /= i;
+
+    std::cout << "Max FPS: " << (int)(1.f / mindt) << std::endl << "Avg FPS: " << (int)(1.f / avgdt) << std::endl << "Min FPS: " << (int)(1.f / maxdt) << std::endl;
+}
+
 int main()
 {
+    atexit(printStats);
+
     sf::RenderWindow* window = new sf::RenderWindow();
     int winwidth = sf::VideoMode::getDesktopMode().width;
     int winheight = sf::VideoMode::getDesktopMode().height;
     window->create({winwidth, winheight}, "Tallest Towers", sf::Style::Fullscreen);
     sf::Clock clock;
-    float mindt = 0xFFFFFFF, avgdt = 0, maxdt = 0;
-    std::vector<float> dts;
-    float minTimer = 0.f;
+    double minTimer = 0.f;
 
     while(window->isOpen())
     {
@@ -29,7 +46,7 @@ int main()
         
         window->display();
 
-        float dt = clock.restart().asSeconds();
+        double dt = clock.restart().asSeconds();
 
         minTimer += dt;
 
@@ -42,18 +59,7 @@ int main()
         if(minTimer >= 15.f) continue;
 
         dts.push_back(dt);
-        if(dt < mindt) mindt = dt;
-        if(dt > maxdt) maxdt = dt;
     }
-
-    int i;
-    for(i = 0; i < dts.size(); i++)
-    {
-        avgdt += dts[i];
-    }
-    avgdt /= i;
-
-    std::cout << (int)(1.f / mindt) << std::endl << (int)(1.f / avgdt) << std::endl << (int)(1.f / maxdt) << std::endl;
 
     delete window;
     

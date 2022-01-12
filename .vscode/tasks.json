@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build & run",
+            "type": "shell",
+            "command": "make run"
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make default",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean"
+        }
+    ]
+}
