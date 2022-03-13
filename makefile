@@ -161,6 +161,10 @@ bin/$(BUILD_DIR)/$(TARGET): bin/$(BUILD_DIR) $(OBJECTS) deps cmds
 clean: depsclean
 	$(SILENT) rm bin/* -r || true
 	$(SILENT) rm obj/* -r || true
+	$(SILENT) rm *.zip || true
 	
 run: bin/$(BUILD_DIR)/$(TARGET)
 	$(SILENT) $(RUN_CMD)
+	
+package: all
+	$(SILENT) zip $(TARGET)-$(BUILD_DIR) bin/$(BUILD_DIR) -r
