@@ -1,2 +1,5 @@
 # Tallest Towers
-this is just a small game so we can improve our skills before moving on to Abstraction
+Smol gaem?
+
+# Development Builds
+Any builds with the suffix -prototype -debug or -release are development builds for playtesters. These could become invalid if significant issues are found. Builds with the suffix -dist are distribution builds
